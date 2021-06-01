@@ -3,10 +3,7 @@ describe('Search elements', function () {
         cy.visit('/');
     })
     it('Search for elements with multiple results', function () {
-        cy.fixture('index').then((index) => {
-            cy.get(index.searchBox).type("dress");
-            cy.get(index.searchButton).click();
-        })
+       cy.search('dress')
         cy.fixture('results').then((results) => {
             cy.get(results.title).should('contain', 'dress');
         })
@@ -21,4 +18,14 @@ describe('Search elements', function () {
             cy.get(results.alert).should('contain', 'No results were found for your search');
         })
     })
+    it('Search elements from txt', ()=>{
+        cy.readFile('cypress/support/text/search.txt').then((text)=>{
+            cy.search(text);
+        })
+        cy.fixture('results').then((results) => {
+            cy.get(results.alert).should('contain', 'No results were found for your search');
+        })
+
+    })
+    
 })
